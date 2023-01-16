@@ -1,15 +1,15 @@
 <?php
 
-namespace src\Order\Application\EventHandler;
+namespace Daamian\WarehouseAlgorithm\Order\Application\EventHandler;
 
-use src\Order\Application\Command\ConfirmOrder\ConfirmOrderCommand;
-use src\Order\Application\Command\RejectOrder\RejectOrderCommand;
-use src\Order\Domain\Event\OrderInitialized;
-use src\Order\Domain\Item as OrderItem;
-use src\Shared\CommandBusInterface;
-use src\Warehouse\Application\Service\AvailabilityInterface;
-use src\Warehouse\Application\Service\DTO\Item as ItemDTO;
-use src\Warehouse\Application\Service\NotEnoughQuantityOfResourceException;
+use Daamian\WarehouseAlgorithm\Order\Application\Command\ConfirmOrder\ConfirmOrderCommand;
+use Daamian\WarehouseAlgorithm\Order\Application\Command\RejectOrder\RejectOrderCommand;
+use Daamian\WarehouseAlgorithm\Order\Domain\Event\OrderInitialized;
+use Daamian\WarehouseAlgorithm\Order\Domain\Item as OrderItem;
+use Daamian\WarehouseAlgorithm\Shared\CommandBusInterface;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\AvailabilityInterface;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item as ItemDTO;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\NotEnoughQuantityOfResourceException;
 
 class OrderInitializedHandler
 {

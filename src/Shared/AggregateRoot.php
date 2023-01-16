@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Shared;
+namespace Daamian\WarehouseAlgorithm\Shared;
 
 abstract class AggregateRoot
 {

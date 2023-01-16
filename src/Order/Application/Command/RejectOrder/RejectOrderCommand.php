@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Order\Application\Command\RejectOrder;
+namespace Daamian\WarehouseAlgorithm\Order\Application\Command\RejectOrder;
 
 class RejectOrderCommand
 {

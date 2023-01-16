@@ -1,9 +1,9 @@
 <?php
 
-namespace src\Order\Application\Handler;
+namespace Daamian\WarehouseAlgorithm\Order\Application\Handler;
 
-use src\Order\Application\Command\ConfirmOrder\ConfirmOrderCommand;
-use src\Order\Domain\OrderRepositoryInterface;
+use Daamian\WarehouseAlgorithm\Order\Application\Command\ConfirmOrder\ConfirmOrderCommand;
+use Daamian\WarehouseAlgorithm\Order\Domain\OrderRepositoryInterface;
 
 class ConfirmOrderHandler
 {

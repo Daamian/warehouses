@@ -1,12 +1,12 @@
 <?php
 
-namespace src\Order\Application\Handler;
+namespace Daamian\WarehouseAlgorithm\Order\Application\Handler;
 
-use src\Order\Application\Command\CreateOrder\CreateOrderCommand;
-use src\Order\Domain\Item;
-use src\Order\Domain\Items;
-use src\Order\Domain\Order;
-use src\Order\Domain\OrderRepositoryInterface;
+use Daamian\WarehouseAlgorithm\Order\Application\Command\CreateOrder\CreateOrderCommand;
+use Daamian\WarehouseAlgorithm\Order\Domain\Item;
+use Daamian\WarehouseAlgorithm\Order\Domain\Items;
+use Daamian\WarehouseAlgorithm\Order\Domain\Order;
+use Daamian\WarehouseAlgorithm\Order\Domain\OrderRepositoryInterface;
 
 class CreateOrderHandler
 {

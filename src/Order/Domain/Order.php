@@ -1,9 +1,9 @@
 <?php
 
-namespace src\Order\Domain;
+namespace Daamian\WarehouseAlgorithm\Order\Domain;
 
-use src\Order\Domain\Event\OrderInitialized;
-use src\Shared\AggregateRoot;
+use Daamian\WarehouseAlgorithm\Order\Domain\Event\OrderInitialized;
+use Daamian\WarehouseAlgorithm\Shared\AggregateRoot;
 
 class Order extends AggregateRoot
 {

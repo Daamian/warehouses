@@ -1,9 +1,9 @@
 <?php
 
-namespace src\Order\Application\Handler;
+namespace Daamian\WarehouseAlgorithm\Order\Application\Handler;
 
-use src\Order\Application\Command\RejectOrder\RejectOrderCommand;
-use src\Order\Domain\OrderRepositoryInterface;
+use Daamian\WarehouseAlgorithm\Order\Application\Command\RejectOrder\RejectOrderCommand;
+use Daamian\WarehouseAlgorithm\Order\Domain\OrderRepositoryInterface;
 
 class RejectOrderHandler
 {

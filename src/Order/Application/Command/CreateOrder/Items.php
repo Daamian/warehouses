@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Order\Application\Command\CreateOrder;
+namespace Daamian\WarehouseAlgorithm\Order\Application\Command\CreateOrder;
 
 class Items
 {
