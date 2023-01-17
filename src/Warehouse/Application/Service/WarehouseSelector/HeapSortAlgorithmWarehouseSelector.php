@@ -22,10 +22,9 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
         $selectedWarehouses = array();
         foreach ($itemsToSelect as $item) {
             $resourceId = $item->getResourceId();
-            $quantity = $item->getQuantity();
             $warehousesForResource = $itemsWarehouseMap[$resourceId];
 
-            $qty = $quantity;
+            $qty = $item->getQuantity();
 
             if (!empty($selectedWarehouses)) {
                 $this->searchInSelectedWarehouses($selectedWarehouses, $warehousesForResource, $resourceId, $qty);
@@ -35,42 +34,7 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
                 continue;
             }
 
-            $end = false;
-            $index = 0;
-            while (false === $end) {
-                usort($warehousesForResource, function ($a, $b) use ($qty) {
-                    if ($a['quantity'] >= $qty && $b['quantity'] >= $qty) {
-                        return ($a['priority'] > $b['priority']) ? 1 : -1;
-                    } else {
-                        return ($a['quantity'] < $b['quantity']) ? 1 : -1;
-                    }
-                });
-
-                $warehouse = $warehousesForResource[$index];
-
-                if ($warehouse['quantity'] >= $qty) {
-                    $selectedWarehouses[] = [
-                        'resourceId' => $resourceId,
-                        'warehouseId' => $warehouse['warehouseId'],
-                        'quantity' => $qty
-                    ];
-                    $qty -= $warehouse['quantity'];
-                    $end = true;
-                } else {
-                    $selectedWarehouses[] = [
-                        'resourceId' => $resourceId,
-                        'warehouseId' => $warehouse['warehouseId'],
-                        'quantity' => $warehouse['quantity']
-                    ];
-                    $qty -= $warehouse['quantity'];
-                }
-
-                unset($warehousesForResource[$index]);
-
-                if (empty($warehousesForResource)) {
-                    $end = true;
-                }
-            }
+            $this->searchInWarehousesForResource($selectedWarehouses, $warehousesForResource, $resourceId, $qty);
         }
 
         return $selectedWarehouses;
@@ -100,21 +64,23 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
 
     private function searchInSelectedWarehouses(array &$selectedWarehouses, array &$warehousesForResource, string $resourceId, int &$qty): array
     {
-        $selectedWarehousesTmp = $selectedWarehouses;
+        $selectedWarehousesTmp = array_keys($selectedWarehouses);
+
         $selectedWarehousesTmp = array_filter(
-            $selectedWarehousesTmp,
-            function ($warehouse) use ($warehousesForResource) {
-                return isset($warehousesForResource[$warehouse['warehouseId']]);
+            array_keys($selectedWarehouses),
+            function ($warehouseId) use ($warehousesForResource) {
+                return isset($warehousesForResource[$warehouseId]);
             }
         );
 
         $end = false;
         $index = 0;
         $warehousesForResourceTmp = $warehousesForResource;
+
         while (false === $end) {
             usort($selectedWarehousesTmp, function ($a, $b) use ($warehousesForResourceTmp, $qty) {
-                $a = $warehousesForResourceTmp[$a['warehouseId']];
-                $b = $warehousesForResourceTmp[$b['warehouseId']];
+                $a = $warehousesForResourceTmp[$a];
+                $b = $warehousesForResourceTmp[$b];
 
                 if ($a['quantity'] >= $qty && $b['quantity'] >= $qty) {
                     return ($a['priority'] > $b['priority']) ? 1 : -1;
@@ -123,36 +89,35 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
                 }
             });
 
-            $selectedWarehouse = $selectedWarehousesTmp[$index];
+            $warehouseId = $selectedWarehousesTmp[$index];
 
-            if (!isset($warehousesForResource[$selectedWarehouse['warehouseId']])) {
+            //TODO fix
+            /*if (!isset($warehousesForResource[$selectedWarehouse['warehouseId']])) {
                 unset($selectedWarehousesTmp[$index]);
                 if (empty($selectedWarehousesTmp)) {
                     $end = true;
                 }
                 continue;
-            }
+            }*/
 
-            $warehouse = $warehousesForResource[$selectedWarehouse['warehouseId']];
+            $warehouse = $warehousesForResource[$warehouseId];
 
             if ($warehouse['quantity'] >= $qty) {
-                $selectedWarehouses[] = [
+                $selectedWarehouses[$warehouse['warehouseId']][] = [
                     'resourceId' => $resourceId,
-                    'warehouseId' => $warehouse['warehouseId'],
                     'quantity' => $qty
                 ];
                 $qty -= $warehouse['quantity'];
                 $end = true;
             } else {
-                $selectedWarehouses[] = [
+                $selectedWarehouses[$warehouse['warehouseId']][] = [
                     'resourceId' => $resourceId,
-                    'warehouseId' => $warehouse['warehouseId'],
                     'quantity' => $warehouse['quantity']
                 ];
                 $qty -= $warehouse['quantity'];
             }
 
-            unset($warehousesForResource[$selectedWarehouse['warehouseId']]);
+            unset($warehousesForResource[$warehouseId]);
             unset($selectedWarehousesTmp[$index]);
 
             if (empty($selectedWarehousesTmp)) {
@@ -162,5 +127,43 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
         }
 
         return $selectedWarehouses;
+    }
+
+    private function searchInWarehousesForResource(array &$selectedWarehouses, array $warehousesForResource, string $resourceId, int $qty): void
+    {
+        $end = false;
+        $index = 0;
+        while (false === $end) {
+            usort($warehousesForResource, function ($a, $b) use ($qty) {
+                if ($a['quantity'] >= $qty && $b['quantity'] >= $qty) {
+                    return ($a['priority'] > $b['priority']) ? 1 : -1;
+                } else {
+                    return ($a['quantity'] < $b['quantity']) ? 1 : -1;
+                }
+            });
+
+            $warehouse = $warehousesForResource[$index];
+
+            if ($warehouse['quantity'] >= $qty) {
+                $selectedWarehouses[$warehouse['warehouseId']][] = [
+                    'resourceId' => $resourceId,
+                    'quantity' => $qty
+                ];
+                $qty -= $warehouse['quantity'];
+                $end = true;
+            } else {
+                $selectedWarehouses[$warehouse['warehouseId']][] = [
+                    'resourceId' => $resourceId,
+                    'quantity' => $warehouse['quantity']
+                ];
+                $qty -= $warehouse['quantity'];
+            }
+
+            unset($warehousesForResource[$index]);
+
+            if (empty($warehousesForResource)) {
+                $end = true;
+            }
+        }
     }
 }

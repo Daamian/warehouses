@@ -31,9 +31,10 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //Expected
+
         $warehousesSelectedExpected = [
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-main', 'quantity' => 5],
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-katowice', 'quantity' => 4]
+            'warehouse-main' => [['resourceId' => 'resource-1', 'quantity' => 5]],
+            'warehouse-katowice' => [['resourceId' => 'resource-1', 'quantity' => 4]]
         ];
 
         //When
@@ -60,10 +61,8 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
 
         //Expected
         $warehousesSelectedExpected = [
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-main', 'quantity' => 5],
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-katowice', 'quantity' => 3],
-            ['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-main', 'quantity' => 5],
-            ['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-katowice', 'quantity' => 1]
+            'warehouse-main' => [['resourceId' => 'resource-1', 'quantity' => 5], ['resourceId' => 'resource-3', 'quantity' => 5]],
+            'warehouse-katowice' => [['resourceId' => 'resource-1', 'quantity' => 3], ['resourceId' => 'resource-3', 'quantity' => 1]]
         ];
 
         //When
@@ -91,8 +90,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
 
         //Expected
         $warehousesSelectedExpected = [
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-gliwice', 'quantity' => 8],
-            ['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-gliwice', 'quantity' => 6],
+            'warehouse-gliwice' => [['resourceId' => 'resource-1', 'quantity' => 8], ['resourceId' => 'resource-3', 'quantity' => 6]]
         ];
 
         //When
@@ -121,10 +119,8 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
 
         //Expected
         $warehousesSelectedExpected = [
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-C', 'quantity' => 3],
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-A', 'quantity' => 2],
-            ['resourceId' => 'resource-2', 'warehouseId' => 'warehouse-A', 'quantity' => 4],
-            ['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-C', 'quantity' => 1]
+            'warehouse-C' => [['resourceId' => 'resource-1', 'quantity' => 3], ['resourceId' => 'resource-3', 'quantity' => 1]],
+            'warehouse-A' => [['resourceId' => 'resource-1', 'quantity' => 2], ['resourceId' => 'resource-2', 'quantity' => 4]]
         ];
 
         //When
@@ -155,12 +151,16 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
 
         //Expected
         $warehousesSelectedExpected = [
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-E', 'quantity' => 5],
-            ['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-C', 'quantity' => 3],
-            ['resourceId' => 'resource-2', 'warehouseId' => 'warehouse-E', 'quantity' => 5],
-            ['resourceId' => 'resource-2', 'warehouseId' => 'warehouse-C', 'quantity' => 3],
-            ['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-E', 'quantity' => 5],
-            ['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-C', 'quantity' => 3]
+            'warehouse-E' => [
+                ['resourceId' => 'resource-1', 'quantity' => 5],
+                ['resourceId' => 'resource-2', 'quantity' => 5],
+                ['resourceId' => 'resource-3', 'quantity' => 5]
+            ],
+            'warehouse-C' => [
+                ['resourceId' => 'resource-1', 'quantity' => 3],
+                ['resourceId' => 'resource-2', 'quantity' => 3],
+                ['resourceId' => 'resource-3', 'quantity' => 3]
+            ]
         ];
 
         //When
@@ -197,24 +197,22 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
             new Item('resource-99', 100)
         ];
 
-        //Expected
-        $warehousesSelectedExpected = [];
-
         //When
         $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
 
-        $this->assertCount(1000, $warehouseSelected);
         for ($i = 1; $i <= 100; $i++) {
-            $this->assertContains(['resourceId' => 'resource-1', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-12', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-15', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-21', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-56', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-88', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-32', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-3', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-50', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
-            $this->assertContains(['resourceId' => 'resource-99', 'warehouseId' => 'warehouse-' . $i, 'quantity' => 1], $warehouseSelected);
+            $this->assertEquals([
+                ['resourceId' => 'resource-1', 'quantity' => 1],
+                ['resourceId' => 'resource-12', 'quantity' => 1],
+                ['resourceId' => 'resource-15', 'quantity' => 1],
+                ['resourceId' => 'resource-21', 'quantity' => 1],
+                ['resourceId' => 'resource-56', 'quantity' => 1],
+                ['resourceId' => 'resource-88', 'quantity' => 1],
+                ['resourceId' => 'resource-32', 'quantity' => 1],
+                ['resourceId' => 'resource-3', 'quantity' => 1],
+                ['resourceId' => 'resource-50', 'quantity' => 1],
+                ['resourceId' => 'resource-99', 'quantity' => 1]
+            ], $warehouseSelected['warehouse-' . $i]);
         }
     }
 
@@ -234,7 +232,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //Expected
-        $warehousesSelectedExpected = [['resourceId' => 'resource-0', 'warehouseId' => 'warehouse-100', 'quantity' => 15]];
+        $warehousesSelectedExpected = ['warehouse-100' => [['resourceId' => 'resource-0', 'quantity' => 15]]];
 
         //When
         $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
