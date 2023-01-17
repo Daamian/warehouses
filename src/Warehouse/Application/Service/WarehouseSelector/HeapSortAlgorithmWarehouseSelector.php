@@ -2,11 +2,8 @@
 
 namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector;
 
-use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\StateItem;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\WarehouseState;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Deprecated;
 
 class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
 {
@@ -19,7 +16,7 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
     {
         $itemsWarehouseMap = $this->createItemsWarehouseMap($warehouseStates);
 
-        $selectedWarehouses = array();
+        $selectedWarehouses = [];
         foreach ($itemsToSelect as $item) {
             $resourceId = $item->getResourceId();
             $warehousesForResource = $itemsWarehouseMap[$resourceId];
@@ -64,8 +61,6 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
 
     private function searchInSelectedWarehouses(array &$selectedWarehouses, array &$warehousesForResource, string $resourceId, int &$qty): array
     {
-        $selectedWarehousesTmp = array_keys($selectedWarehouses);
-
         $selectedWarehousesTmp = array_filter(
             array_keys($selectedWarehouses),
             function ($warehouseId) use ($warehousesForResource) {
@@ -90,40 +85,18 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
             });
 
             $warehouseId = $selectedWarehousesTmp[$index];
+            $this->selectWarehouseQuantity($selectedWarehouses, $warehousesForResource[$warehouseId], $resourceId, $qty);
+            unset($warehousesForResource[$warehouseId]);
 
-            //TODO fix
-            /*if (!isset($warehousesForResource[$selectedWarehouse['warehouseId']])) {
-                unset($selectedWarehousesTmp[$index]);
-                if (empty($selectedWarehousesTmp)) {
-                    $end = true;
-                }
-                continue;
-            }*/
-
-            $warehouse = $warehousesForResource[$warehouseId];
-
-            if ($warehouse['quantity'] >= $qty) {
-                $selectedWarehouses[$warehouse['warehouseId']][] = [
-                    'resourceId' => $resourceId,
-                    'quantity' => $qty
-                ];
-                $qty -= $warehouse['quantity'];
+            if ($qty <= 0) {
                 $end = true;
-            } else {
-                $selectedWarehouses[$warehouse['warehouseId']][] = [
-                    'resourceId' => $resourceId,
-                    'quantity' => $warehouse['quantity']
-                ];
-                $qty -= $warehouse['quantity'];
             }
 
-            unset($warehousesForResource[$warehouseId]);
             unset($selectedWarehousesTmp[$index]);
 
             if (empty($selectedWarehousesTmp)) {
                 $end = true;
             }
-
         }
 
         return $selectedWarehouses;
@@ -142,21 +115,10 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
                 }
             });
 
-            $warehouse = $warehousesForResource[$index];
+            $this->selectWarehouseQuantity($selectedWarehouses, $warehousesForResource[$index], $resourceId, $qty);
 
-            if ($warehouse['quantity'] >= $qty) {
-                $selectedWarehouses[$warehouse['warehouseId']][] = [
-                    'resourceId' => $resourceId,
-                    'quantity' => $qty
-                ];
-                $qty -= $warehouse['quantity'];
+            if ($qty <= 0) {
                 $end = true;
-            } else {
-                $selectedWarehouses[$warehouse['warehouseId']][] = [
-                    'resourceId' => $resourceId,
-                    'quantity' => $warehouse['quantity']
-                ];
-                $qty -= $warehouse['quantity'];
             }
 
             unset($warehousesForResource[$index]);
@@ -164,6 +126,23 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
             if (empty($warehousesForResource)) {
                 $end = true;
             }
+        }
+    }
+
+    private function selectWarehouseQuantity(array &$selectedWarehouses, array $warehouse, string $resourceId, int &$qty): void
+    {
+        if ($warehouse['quantity'] >= $qty) {
+            $selectedWarehouses[$warehouse['warehouseId']][] = [
+                'resourceId' => $resourceId,
+                'quantity' => $qty
+            ];
+            $qty -= $warehouse['quantity'];
+        } else {
+            $selectedWarehouses[$warehouse['warehouseId']][] = [
+                'resourceId' => $resourceId,
+                'quantity' => $warehouse['quantity']
+            ];
+            $qty -= $warehouse['quantity'];
         }
     }
 }
