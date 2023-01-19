@@ -2,7 +2,7 @@
 
 namespace Daamian\WarehouseAlgorithm\Order\Application\Command\CreateOrder;
 
-readonly class Item
+class Item
 {
     private string $productId;
     private int $quantity;

@@ -3,9 +3,7 @@
 namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector;
 
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\States;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\WarehouseState;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Items;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO\Items;
 use JetBrains\PhpStorm\ArrayShape;
 
 class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface

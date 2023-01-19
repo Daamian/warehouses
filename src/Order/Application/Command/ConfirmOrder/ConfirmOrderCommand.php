@@ -2,7 +2,7 @@
 
 namespace Daamian\WarehouseAlgorithm\Order\Application\Command\ConfirmOrder;
 
-class ConfirmOrderCommand
+final class ConfirmOrderCommand
 {
     private string $orderId;
 

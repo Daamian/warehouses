@@ -12,18 +12,18 @@ class Order extends AggregateRoot
     private string $userId;
     private Status $status;
 
-    private function __construct(string $id, Items $items, string $userId, Status $status)
+    private function __construct(string $id, Items $items, string $userId)
     {
         $this->id = $id;
         $this->items = $items;
         $this->userId = $userId;
-        $this->status = $status;
+        $this->status = Status::INITIAL;
         $this->registerEvent(new OrderInitialized($this->id, $items, $userId));
     }
 
     public static function createInitial(string $id, Items $items, string $user): self
     {
-        return new Order($id, $items, $user, Status::INITIAL);
+        return new Order($id, $items, $user);
     }
 
     public function confirm(): void

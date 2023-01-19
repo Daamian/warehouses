@@ -1,6 +1,6 @@
 <?php
 
-namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO;
+namespace Daamian\WarehouseAlgorithm\Warehouse\PublicApi\Availability\DTO;
 
 class Item
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO;
+namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO;
 
 class Items implements \Iterator
 {

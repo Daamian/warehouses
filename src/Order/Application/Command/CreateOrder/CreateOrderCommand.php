@@ -2,7 +2,7 @@
 
 namespace Daamian\WarehouseAlgorithm\Order\Application\Command\CreateOrder;
 
-final readonly class CreateOrderCommand
+final class CreateOrderCommand
 {
     private string $id;
     private string $userId;

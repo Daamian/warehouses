@@ -5,8 +5,8 @@ namespace Daamian\WarehouseAlgorithm\Tests;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\StateItem;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\States;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\WarehouseState;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Items;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO\Item;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO\Items;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\HeapSortAlgorithmWarehouseSelector;
 use PHPUnit\Framework\TestCase;
 

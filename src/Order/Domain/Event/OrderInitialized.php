@@ -5,7 +5,7 @@ namespace Daamian\WarehouseAlgorithm\Order\Domain\Event;
 use Daamian\WarehouseAlgorithm\Order\Domain\Items;
 use Daamian\WarehouseAlgorithm\Shared\EventInterface;
 
-class OrderInitialized implements EventInterface
+final class OrderInitialized implements EventInterface
 {
     private string $id;
     private Items $items;

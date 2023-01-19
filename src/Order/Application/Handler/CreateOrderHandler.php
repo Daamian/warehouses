@@ -17,7 +17,7 @@ class CreateOrderHandler
         $this->orderRepository = $orderRepository;
     }
 
-    public function __invoke(CreateOrderCommand $command)
+    public function __invoke(CreateOrderCommand $command): void
     {
         $items = Items::createEmpty();
 
