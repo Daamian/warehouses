@@ -3,8 +3,10 @@
 namespace Daamian\WarehouseAlgorithm\Tests;
 
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\StateItem;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\States;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\WarehouseState;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Items;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\HeapSortAlgorithmWarehouseSelector;
 use PHPUnit\Framework\TestCase;
 
@@ -38,7 +40,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         //Then
         $this->assertEquals($warehousesSelectedExpected, $warehouseSelected);
@@ -66,7 +68,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         //Then
         $this->assertEquals($warehousesSelectedExpected, $warehouseSelected);
@@ -94,7 +96,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         //Then
         $this->assertEquals($warehousesSelectedExpected, $warehouseSelected);
@@ -124,7 +126,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         //Then
         $this->assertEquals($warehousesSelectedExpected, $warehouseSelected);
@@ -164,7 +166,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         //Then
         $this->assertEquals($warehousesSelectedExpected, $warehouseSelected);
@@ -198,7 +200,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         ];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         for ($i = 1; $i <= 100; $i++) {
             $this->assertEquals([
@@ -235,7 +237,7 @@ class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
         $warehousesSelectedExpected = ['warehouse-100' => [['resourceId' => 'resource-0', 'quantity' => 15]]];
 
         //When
-        $warehouseSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $itemsToSelect);
+        $warehouseSelected = $this->warehouseSelector->selectWarehouses(new States(...$warehouseStates), new Items(...$itemsToSelect));
 
         $this->assertEquals($warehousesSelectedExpected, $warehouseSelected);
     }

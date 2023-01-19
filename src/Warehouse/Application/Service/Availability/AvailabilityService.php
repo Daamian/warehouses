@@ -4,6 +4,7 @@ namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\Availability;
 
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Query\WarehouseStateQueryInterface;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Items;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\StateBlocker\StateBlockerInterface;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\WarehouseSelectorInterface;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\StateBlocker\DTO\Item as StateBlockerItem;
@@ -21,7 +22,7 @@ class AvailabilityService implements AvailabilityInterface
         $this->blocker = $blocker;
     }
 
-    public function blockItems(string $blockerId, Item ...$items): void
+    public function blockItems(string $blockerId, Items $items): void
     {
         $warehouseStates = $this->warehouseStateQuery->getAllStates();
         $warehousesSelected = $this->warehouseSelector->selectWarehouses($warehouseStates, $items);

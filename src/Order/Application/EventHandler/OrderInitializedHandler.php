@@ -7,9 +7,10 @@ use Daamian\WarehouseAlgorithm\Order\Application\Command\RejectOrder\RejectOrder
 use Daamian\WarehouseAlgorithm\Order\Domain\Event\OrderInitialized;
 use Daamian\WarehouseAlgorithm\Order\Domain\Item as OrderItem;
 use Daamian\WarehouseAlgorithm\Shared\CommandBusInterface;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\AvailabilityInterface;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\Availability\AvailabilityInterface;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\Availability\NotEnoughQuantityOfResourceException;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item as ItemDTO;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\NotEnoughQuantityOfResourceException;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Items;
 
 class OrderInitializedHandler
 {
@@ -25,9 +26,9 @@ class OrderInitializedHandler
     public function __invoke(OrderInitialized $event): void
     {
         try {
-            $this->availability->blockItems($event->getId(), ...array_map(function (OrderItem $item) {
+            $this->availability->blockItems($event->getId(), new Items(...array_map(function (OrderItem $item) {
                 return new ItemDTO($item->getProductId(), $item->getQuantity());
-            }, $event->getItems()->toArray()));
+            }, $event->getItems()->toArray())));
         } catch (NotEnoughQuantityOfResourceException $exception) {
             $this->commandBus->dispatch(new RejectOrderCommand($event->getId()));
             return;

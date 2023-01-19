@@ -1,9 +1,9 @@
 <?php
 
-namespace src\Order\Domain\Event;
+namespace Daamian\WarehouseAlgorithm\Order\Domain\Event;
 
-use src\Order\Domain\Items;
-use src\Shared\EventInterface;
+use Daamian\WarehouseAlgorithm\Order\Domain\Items;
+use Daamian\WarehouseAlgorithm\Shared\EventInterface;
 
 class OrderInitialized implements EventInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Order\Domain;
+namespace Daamian\WarehouseAlgorithm\Order\Domain;
 
 class Items
 {

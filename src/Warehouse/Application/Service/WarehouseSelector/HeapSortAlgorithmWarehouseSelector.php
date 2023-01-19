@@ -2,17 +2,20 @@
 
 namespace Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector;
 
+use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\States;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\WarehouseState;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Item;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\DTO\Items;
+use JetBrains\PhpStorm\ArrayShape;
 
 class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
 {
-
-    /**
-     * @param WarehouseState[] $warehouseStates
-     * @param Item[] $itemsToSelect
-     */
-    public function selectWarehouses(array $warehouseStates, array $itemsToSelect): array
+    #[ArrayShape([
+        'string' => /* Key of this array is warehouseId */ [
+            'resourceId' => 'string',
+            'quantity' => 'int'
+        ]
+    ])] public function selectWarehouses(States $warehouseStates, Items $itemsToSelect): array
     {
         $itemsWarehouseMap = $this->createItemsWarehouseMap($warehouseStates);
 
@@ -37,10 +40,7 @@ class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
         return $selectedWarehouses;
     }
 
-    /**
-     * @param WarehouseState[] $warehouseStates
-     */
-    private function createItemsWarehouseMap(array $warehouseStates): array
+    private function createItemsWarehouseMap(States $warehouseStates): array
     {
         $itemsWarehouseMap = [];
         foreach ($warehouseStates as $warehouseState) {
