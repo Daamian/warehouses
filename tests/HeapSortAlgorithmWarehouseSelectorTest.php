@@ -7,16 +7,16 @@ use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\States;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\WarehouseState;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO\Item;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO\Items;
-use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\HeapSortAlgorithmWarehouseSelector;
+use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\OptimalAlgorithmWarehouseSelector;
 use PHPUnit\Framework\TestCase;
 
-class HeapSortAlgorithmWarehouseSelectorTest extends TestCase
+class OptimalAlgorithmWarehouseSelectorTest extends TestCase
 {
-    private HeapSortAlgorithmWarehouseSelector $warehouseSelector;
+    private OptimalAlgorithmWarehouseSelector $warehouseSelector;
 
     public function setUp(): void
     {
-        $this->warehouseSelector = new HeapSortAlgorithmWarehouseSelector();
+        $this->warehouseSelector = new OptimalAlgorithmWarehouseSelector();
     }
 
     public function testCoffeFilterSelectWarehouses(): void

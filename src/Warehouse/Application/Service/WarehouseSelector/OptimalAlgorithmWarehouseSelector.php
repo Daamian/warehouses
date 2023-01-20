@@ -6,7 +6,7 @@ use Daamian\WarehouseAlgorithm\Warehouse\Application\ReadModel\States;
 use Daamian\WarehouseAlgorithm\Warehouse\Application\Service\WarehouseSelector\DTO\Items;
 use JetBrains\PhpStorm\ArrayShape;
 
-class HeapSortAlgorithmWarehouseSelector implements WarehouseSelectorInterface
+class OptimalAlgorithmWarehouseSelector implements WarehouseSelectorInterface
 {
     #[ArrayShape([
         'string' => /* Key of this array is warehouseId */ [
